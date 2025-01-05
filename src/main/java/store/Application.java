@@ -37,8 +37,8 @@ public class Application {
         List<Product> cart = new ArrayList<>();
         List<Integer> buyCounts = new ArrayList<>();
         productMap.forEach((name, product) -> {
-            if(!name.equals("사이다"))
-                return;
+//            if(!name.equals("사이다"))
+//                return;
             System.out.println(product);
             Integer buyCount = Randoms.pickNumberInRange(1, 10);
 //            Integer buyCount = 2;
@@ -67,6 +67,18 @@ public class Application {
             buyCounts.add(buyCount);
         });
 
+        Integer rawTotalPrice = 0;
+        for (int i = 0; i < cart.size(); i++) {
+            Product product = cart.get(i);
+            Integer buyCount = buyCounts.get(i);
+
+            System.out.println(product);
+            Integer price = product.calcRawPrice(buyCount);
+            System.out.println("가격 : " + price);
+            rawTotalPrice += price;
+        }
+        System.out.println("rawTotalPrice : " + rawTotalPrice);
+
         System.out.println("=".repeat(20));
         System.out.println(cart);
         System.out.println(buyCounts);
@@ -82,6 +94,13 @@ public class Application {
             System.out.println(product);
             totalPrice += price;
         }
+        System.out.println("totalPrice : " + totalPrice);
+
+        Integer buyOrNot = Randoms.pickNumberInRange(0, 1);
+        boolean isBuy = buyOrNot == 1;
+        System.out.println("멤버쉽 여부 : " + isBuy);
+        if(isBuy)
+            totalPrice -= MemberShipDiscount.calcDiscount(rawTotalPrice);
         System.out.println("totalPrice : " + totalPrice);
     }
 }

@@ -46,6 +46,10 @@ public class Product {
         return true;
     }
 
+    public Integer calcRawPrice(int buyCount) {
+        return this.price * buyCount;
+    }
+
     public Integer calcPrice(int buyCount) {
         if(buyCount <= this.promotionQuantity) {
             Integer promotionCount = promotion.calcPromotionCount(buyCount);

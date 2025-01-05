@@ -57,7 +57,7 @@ public class Product {
     }
 
     public Integer calcPrice(int buyCount) {
-        if(buyCount <= this.promotionQuantity) {
+        if (buyCount <= this.promotionQuantity) {
             Integer promotionCount = promotion.calcPromotionCount(buyCount);
             Integer totalPrice = (buyCount - promotionCount) * this.price;
 
@@ -75,37 +75,39 @@ public class Product {
     }
 
     public void increaseQuantity(int quantity) {
-        this.quantity+=quantity;
+        this.quantity += quantity;
     }
 
     public void increasePromotionQuantity(int quantity) {
-        this.promotionQuantity+=quantity;
+        this.promotionQuantity += quantity;
     }
 
     public boolean decreaseQuantity(int quantity) {
-        if(this.quantity <= quantity)
+        if (this.quantity <= quantity) {
             return false;
-        this.quantity-=quantity;
+        }
+        this.quantity -= quantity;
         return true;
     }
 
     public boolean decreasePromotionCount(int count) {
-        if(this.promotionQuantity < count)
+        if (this.promotionQuantity < count) {
             return false;
-        this.promotionQuantity-=count;
+        }
+        this.promotionQuantity -= count;
         return true;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        if(this.quantity > 0) {
+        if (this.quantity > 0) {
             stringBuilder.append("-").append(" ");
             stringBuilder.append(this.name).append(" ");
             stringBuilder.append(this.price).append("원").append(" ");
             stringBuilder.append(this.quantity).append("개").append("\n");
         }
-        if(this.promotionQuantity > 0) {
+        if (this.promotionQuantity > 0) {
             stringBuilder.append("-").append(" ");
             stringBuilder.append(this.name).append(" ");
             stringBuilder.append(this.price).append("원").append(" ");

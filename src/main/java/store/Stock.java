@@ -10,14 +10,11 @@ public class Stock {
     Map<String, Product> productMap;
 
     public Stock() throws IOException {
-        this.promotionHashMap = new HashMap<>();
-        this.productMap = new HashMap<>();
-
         PromotionReader promotionReader = new PromotionReader();
-        promotionHashMap = promotionReader.readPromotion();
-
         ProductReader productReader = new ProductReader();
-        productMap = productReader.readProduct(promotionHashMap);
+
+        this.promotionHashMap = promotionReader.readPromotion();
+        this.productMap = productReader.readProduct(promotionHashMap);
     }
 
     public void printStocks() {
@@ -33,9 +30,9 @@ public class Stock {
         System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
     }
 
-    public List<Order> validateOrder(List<Order> orderList) throws StockExceedException {
+    public List<CartItem> validateOrder(List<Order> orderList) throws StockExceedException {
         return orderList.stream().map(order -> {
-            Product product = productMap.get(order.product());
+            Product product = productMap.get(order.productName());
             Integer buyCount = order.buyCount();
 
             product.checkCount(buyCount);
@@ -44,7 +41,7 @@ public class Stock {
             if (freeCount > 0) {
                 boolean isBuyFreeCount = UserInputOutputHandler.readWantOrNot();
                 if (isBuyFreeCount) {
-                    return new Order(order.product(), order.buyCount() + freeCount);
+                    return CartItem.from(product, order.buyCount() + freeCount);
                 }
             }
 
@@ -52,30 +49,12 @@ public class Stock {
             if (isExist) {
                 boolean isBuyOk = UserInputOutputHandler.readWantOrNot();
                 if (isBuyOk) {
-                    return order;
+                    return new CartItem(product, buyCount);
                 }
-                return new Order(order.product(), 0);
+                return CartItem.from(product, 0);
             }
 
-            return order;
+            return CartItem.from(product, buyCount);
         }).toList();
-    }
-
-    public Integer calcRawriace(List<Order> orderList) {
-        return orderList.stream()
-                .mapToInt(order -> {
-                    Product product = productMap.get(order.product());
-                    return product.calcRawPrice(order.buyCount());
-                })
-                .sum();
-    }
-
-    public Integer calcPrice(List<Order> orderList) {
-        return orderList.stream()
-                .mapToInt(order -> {
-                    Product product = productMap.get(order.product());
-                    return product.calcPrice(order.buyCount());
-                })
-                .sum();
     }
 }

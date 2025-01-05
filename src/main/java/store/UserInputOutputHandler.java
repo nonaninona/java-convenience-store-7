@@ -12,7 +12,7 @@ public class UserInputOutputHandler {
         List<Order> orderList = new ArrayList<>();
         for (int i = 0; i < orders.length; i++) {
             String order = orders[i];
-            order = order.substring(1, order.length()-1);
+            order = order.substring(1, order.length() - 1);
             String[] tokens = order.split("-");
             orderList.add(new Order(tokens[0], Integer.parseInt(tokens[1])));
         }
@@ -21,10 +21,12 @@ public class UserInputOutputHandler {
 
     public static boolean readWantOrNot() {
         String input = Console.readLine();
-        if(input.equals("Y"))
+        if (input.equals("Y")) {
             return true;
-        if(input.equals("N"))
+        }
+        if (input.equals("N")) {
             return false;
+        }
         throw new InputFormatException();
     }
 

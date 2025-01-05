@@ -3,9 +3,10 @@ package store;
 import camp.nextstep.edu.missionutils.Console;
 import java.util.ArrayList;
 import java.util.List;
+import store.exception.InputFormatException;
 
 public class UserInputOutputHandler {
-    public static List<Order> readProducts() {
+    public static List<Order> readOrders() {
         String input = Console.readLine();
         String[] orders = input.split(",");
 

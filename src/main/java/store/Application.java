@@ -2,6 +2,8 @@ package store;
 
 import java.io.IOException;
 import java.util.List;
+import store.exception.InputFormatException;
+import store.exception.StockExceedException;
 
 public class Application {
     public static void main(String[] args) {
@@ -15,13 +17,13 @@ public class Application {
 
         try {
             stock.printStocks();
-            List<Order> orderList = UserInputOutputHandler.readProducts();
+            List<Order> orderList = UserInputOutputHandler.readOrders();
             List<CartItem> cartItemList = stock.makeCartItems(orderList);
 
             Cart cart = new Cart(cartItemList);
-            cart.validateCart();
+            cart.checkCartItem();
 
-            cart.printCart();
+            cart.printCartItemList();
 
 //            Integer rawPrice = cart.calcRawPrice(cartItemList);
 //            Integer discountPrice = MemberShipDiscount.calcDiscountPrice(rawPrice);

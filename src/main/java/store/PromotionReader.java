@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import store.promotion.PlusPromotion;
+import store.promotion.Promotion;
 
 public class PromotionReader {
     private static BufferedReader reader;
@@ -21,7 +23,7 @@ public class PromotionReader {
         String str;
         while ((str = reader.readLine()) != null) {
             String[] tokens = str.split(",");
-            Promotion promotion = new Promotion(
+            Promotion promotion = new PlusPromotion(
                     tokens[0],
                     Integer.parseInt(tokens[1]),
                     Integer.parseInt(tokens[2]),

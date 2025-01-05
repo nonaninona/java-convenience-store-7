@@ -1,5 +1,8 @@
 package store;
 
+import store.exception.StockExceedException;
+import store.promotion.Promotion;
+
 public class Product {
     private String name;
     private Integer price;
@@ -27,54 +30,39 @@ public class Product {
         return promotionQuantity;
     }
 
-    public void checkCount(int buyCount) {
+    public void validateTotalQuantity(int buyCount) {
         if (this.promotionQuantity + this.quantity < buyCount) {
             throw new StockExceedException();
         }
     }
 
-    public Integer checkFreeCount(int buyCount) {
+    public Integer checkFreeQuantity(int buyCount) {
         if (buyCount <= this.promotionQuantity) {
-            Integer freeCount = promotion.calcFreeCount(buyCount);
-            if (freeCount != 0 && buyCount + freeCount <= this.promotionQuantity) {
-                UserInputOutputHandler.printFreeCountQuestion(this.name, freeCount);
-                return freeCount;
-            }
+            return promotion.calcFreeCount(buyCount, this.promotionQuantity);
         }
         return 0;
     }
 
-    public boolean checkIfNotIncludedPromotionCountExist(int buyCount) {
+    public Integer checkNotIncludedPromotionCount(int buyCount) {
         if (buyCount > this.promotionQuantity) {
-            Integer totalPromotionCount = promotion.calcTotalPromotionCount(this.promotionQuantity);
-            Integer notPromotionCount = buyCount - totalPromotionCount;
-            if (!promotion.isNoPromotion() && notPromotionCount != 0) {
-                UserInputOutputHandler.printPromotionNotIncludedQuestion(this.name, notPromotionCount);
-                return true;
-            }
+            return promotion.calcNotIncludedPromotionCount(buyCount, this.promotionQuantity);
         }
-        return false;
+        return 0;
     }
 
     public Integer calcRawPrice(int buyCount) {
         return this.price * buyCount;
     }
 
+    public Integer calcPromotionCount(int buyCount) { return promotion.calcPromotionCount(buyCount); }
+
     public Integer calcPrice(int buyCount) {
-        if (buyCount <= this.promotionQuantity) {
-            Integer promotionCount = promotion.calcPromotionCount(buyCount);
-            Integer totalPrice = (buyCount - promotionCount) * this.price;
-
-            this.promotionQuantity -= buyCount;
-            return totalPrice;
-        }
-
-        Integer promotionCount = promotion.calcPromotionCount(this.promotionQuantity);
+        Integer totalPromotionCount = Math.min(buyCount, this.promotionQuantity);
+        Integer promotionCount = promotion.calcPromotionCount(buyCount);
         Integer totalPrice = (buyCount - promotionCount) * this.price;
 
-        Integer leftCount = buyCount - this.promotionQuantity;
-        this.promotionQuantity = 0;
-        this.quantity -= leftCount;
+        this.promotionQuantity -= totalPromotionCount;
+        this.quantity -= Math.max(buyCount - this.promotionQuantity, 0);
         return totalPrice;
     }
 
@@ -94,11 +82,11 @@ public class Product {
         return true;
     }
 
-    public boolean decreasePromotionCount(int count) {
-        if (this.promotionQuantity < count) {
+    public boolean decreasePromotionCount(int quantity) {
+        if (this.promotionQuantity < quantity) {
             return false;
         }
-        this.promotionQuantity -= count;
+        this.promotionQuantity -= quantity;
         return true;
     }
 
@@ -119,5 +107,9 @@ public class Product {
             stringBuilder.append(this.promotion).append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    public Integer calcPromotionPrice(int buyCount) {
+        return calcPromotionCount(buyCount) * this.price;
     }
 }

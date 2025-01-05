@@ -1,4 +1,4 @@
-package store;
+package store.exception;
 
 public class StockExceedException extends RuntimeException {
     public StockExceedException() {

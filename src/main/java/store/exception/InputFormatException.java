@@ -1,4 +1,4 @@
-package store;
+package store.exception;
 
 public class InputFormatException extends RuntimeException {
     public InputFormatException() {

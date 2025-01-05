@@ -1,9 +1,10 @@
 package store;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import store.promotion.Promotion;
 
 public class Stock {
     Map<String, Promotion> promotionHashMap;
@@ -35,6 +36,6 @@ public class Stock {
             Product product = productMap.get(order.productName());
             Integer buyCount = order.buyCount();
             return new CartItem(product, buyCount);
-        }).toList();
+        }).collect(Collectors.toList());
     }
 }

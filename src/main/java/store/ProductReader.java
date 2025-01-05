@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import store.promotion.NoPromotion;
+import store.promotion.Promotion;
 
 public class ProductReader {
     private static BufferedReader reader;
@@ -24,7 +26,7 @@ public class ProductReader {
             Product product = map.get(tokens[0]);
             Promotion promotion = promotionMap.get(tokens[3]);
             if (promotion == null) {
-                promotion = Promotion.noPromotion;
+                promotion = new NoPromotion();
             }
             if (product == null) {
                 product = new Product(tokens[0], Integer.parseInt(tokens[1]), 0, 0, promotion);

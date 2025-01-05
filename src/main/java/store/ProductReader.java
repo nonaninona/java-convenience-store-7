@@ -24,21 +24,24 @@ public class ProductReader {
             String[] tokens = str.split(",");
 
             Product product = map.get(tokens[0]);
+            Promotion promotion = promotionMap.get(tokens[3]);
+            if(promotion == null)
+                promotion = Promotion.noPromotion;
             if(product == null) {
                 product = new Product(
                         tokens[0],
                         Integer.parseInt(tokens[1]),
                         0,
                         0,
-                        promotionMap.get(tokens[3])
+                        promotion
                 );
             }
 
             int count = Integer.parseInt(tokens[2]);
             if(tokens[3].equals("null"))
-                product.increaseCount(count);
+                product.increaseQuantity(count);
             else
-                product.increasePromotionCount(count);
+                product.increasePromotionQuantity(count);
 
             map.put(tokens[0], product);
         }

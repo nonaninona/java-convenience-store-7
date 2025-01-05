@@ -9,15 +9,14 @@ public class Cart {
         this.cartItemList = cartItemList;
     }
 
-    public Integer calcRawPrice(List<CartItem> cartItemList) {
-        return cartItemList.stream()
-                .mapToInt(item -> item.getProduct().calcRawPrice(item.getBuyCount()))
-                .sum();
+    public void validateCart() {
+        cartItemList.forEach(CartItem::validateCartItem);
     }
 
-    public Integer calcPrice(List<CartItem> cartItemList) {
-        return cartItemList.stream()
-                .mapToInt(item -> item.getProduct().calcPrice(item.getBuyCount()))
-                .sum();
+    public void printCart() {
+        System.out.println("상품명\t수량\t금액");
+        cartItemList.forEach(item -> {
+            System.out.println(item);
+        });
     }
 }

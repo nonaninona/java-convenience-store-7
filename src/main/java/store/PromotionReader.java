@@ -11,17 +11,15 @@ import java.util.Map;
 public class PromotionReader {
     private static BufferedReader reader;
 
-    public Map<String, Promotion> readPromotion() throws IOException {
-        try {
-            reader = new BufferedReader(new FileReader("src/main/resources/promotions.md"));
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+    public PromotionReader() throws FileNotFoundException {
+        reader = new BufferedReader(new FileReader("src/main/resources/promotions.md"));
+    }
 
+    public Map<String, Promotion> readPromotion() throws IOException {
         reader.readLine();
         HashMap<String, Promotion> map = new HashMap<>();
         String str;
-        while((str = reader.readLine()) != null) {
+        while ((str = reader.readLine()) != null) {
             String[] tokens = str.split(",");
             Promotion promotion = new Promotion(
                     tokens[0],

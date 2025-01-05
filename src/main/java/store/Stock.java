@@ -30,31 +30,11 @@ public class Stock {
         System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
     }
 
-    public List<CartItem> validateOrder(List<Order> orderList) throws StockExceedException {
+    public List<CartItem> makeCartItems(List<Order> orderList) {
         return orderList.stream().map(order -> {
             Product product = productMap.get(order.productName());
             Integer buyCount = order.buyCount();
-
-            product.checkCount(buyCount);
-
-            Integer freeCount = product.checkFreeCount(buyCount);
-            if (freeCount > 0) {
-                boolean isBuyFreeCount = UserInputOutputHandler.readWantOrNot();
-                if (isBuyFreeCount) {
-                    return CartItem.from(product, order.buyCount() + freeCount);
-                }
-            }
-
-            boolean isExist = product.checkIfNotIncludedPromotionCountExist(buyCount);
-            if (isExist) {
-                boolean isBuyOk = UserInputOutputHandler.readWantOrNot();
-                if (isBuyOk) {
-                    return new CartItem(product, buyCount);
-                }
-                return CartItem.from(product, 0);
-            }
-
-            return CartItem.from(product, buyCount);
+            return new CartItem(product, buyCount);
         }).toList();
     }
 }

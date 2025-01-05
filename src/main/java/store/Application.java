@@ -16,19 +16,23 @@ public class Application {
         try {
             stock.printStocks();
             List<Order> orderList = UserInputOutputHandler.readProducts();
-            List<CartItem> cartItemList = stock.validateOrder(orderList);
+            List<CartItem> cartItemList = stock.makeCartItems(orderList);
+
             Cart cart = new Cart(cartItemList);
+            cart.validateCart();
 
-            Integer rawPrice = cart.calcRawPrice(cartItemList);
-            Integer discountPrice = MemberShipDiscount.calcDiscountPrice(rawPrice);
-            Integer price = cart.calcPrice(cartItemList);
+            cart.printCart();
 
-            UserInputOutputHandler.printMembershipQuestion();
-            boolean isMemberShip = UserInputOutputHandler.readWantOrNot();
-            if (isMemberShip) {
-                price -= discountPrice;
-            }
-            UserInputOutputHandler.printPrice(price);
+//            Integer rawPrice = cart.calcRawPrice(cartItemList);
+//            Integer discountPrice = MemberShipDiscount.calcDiscountPrice(rawPrice);
+//            Integer price = cart.calcPrice(cartItemList);
+//
+//            UserInputOutputHandler.printMembershipQuestion();
+//            boolean isMemberShip = UserInputOutputHandler.readWantOrNot();
+//            if (isMemberShip) {
+//                price -= discountPrice;
+//            }
+//            UserInputOutputHandler.printPrice(price);
         } catch (StockExceedException e) {
             System.out.println(e.getMessage());
         } catch (InputFormatException e) {

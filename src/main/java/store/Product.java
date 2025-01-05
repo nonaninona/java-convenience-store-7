@@ -15,6 +15,10 @@ public class Product {
         this.promotion = promotion;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }

@@ -9,15 +9,29 @@ public class CartItem {
         this.buyCount = buyCount;
     }
 
-    public static CartItem from(Product product, Integer buyCount) {
-        return new CartItem(product, buyCount);
+    public void validateCartItem() {
+        product.checkCount(buyCount);
+
+        Integer freeCount = product.checkFreeCount(buyCount);
+        if (freeCount > 0) {
+            boolean isBuyFreeCount = UserInputOutputHandler.readWantOrNot();
+            if (isBuyFreeCount) {
+                this.buyCount = buyCount + freeCount;
+            }
+        }
+
+        boolean isExist = product.checkIfNotIncludedPromotionCountExist(buyCount);
+        if (isExist) {
+            boolean isBuyOk = UserInputOutputHandler.readWantOrNot();
+            if (!isBuyOk) {
+                this.buyCount = 0;
+            }
+        }
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public Integer getBuyCount() {
-        return buyCount;
+    @Override
+    public String toString() {
+        return "" +
+                product.getName() + "\t" + buyCount + "\t" + product.calcRawPrice(buyCount);
     }
 }

@@ -25,23 +25,26 @@ public class Promotion {
     }
 
     public Integer calcPromotionCount(int count) {
-        if(buy+get == 0)
+        if (buy + get == 0) {
             return 0;
-        return count/(buy+get);
+        }
+        return count / (buy + get);
     }
 
     public Integer calcFreeCount(int count) {
-        if(buy+get == 0)
+        if (buy + get == 0) {
             return 0;
-        Integer leftCount = count%(buy+get);
-        if(leftCount < buy)
+        }
+        Integer leftCount = count % (buy + get);
+        if (leftCount < buy) {
             return 0;
+        }
         Integer freeCount = get - (leftCount - buy);
         return freeCount;
     }
 
     public Integer calcTotalPromotionCount(int count) {
-        return calcPromotionCount(count) * (buy+get);
+        return calcPromotionCount(count) * (buy + get);
     }
 
     @Override

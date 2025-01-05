@@ -10,38 +10,32 @@ import java.util.Map;
 public class ProductReader {
     private static BufferedReader reader;
 
-    public Map<String, Product> readProduct(Map<String, Promotion> promotionMap) throws IOException {
-        try {
-            reader = new BufferedReader(new FileReader("src/main/resources/products.md"));
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+    public ProductReader() throws FileNotFoundException {
+        reader = new BufferedReader(new FileReader("src/main/resources/products.md"));
+    }
 
+    public Map<String, Product> readProduct(Map<String, Promotion> promotionMap) throws IOException {
         reader.readLine();
         HashMap<String, Product> map = new HashMap<>();
         String str;
-        while((str = reader.readLine()) != null) {
+        while ((str = reader.readLine()) != null) {
             String[] tokens = str.split(",");
 
             Product product = map.get(tokens[0]);
             Promotion promotion = promotionMap.get(tokens[3]);
-            if(promotion == null)
+            if (promotion == null) {
                 promotion = Promotion.noPromotion;
-            if(product == null) {
-                product = new Product(
-                        tokens[0],
-                        Integer.parseInt(tokens[1]),
-                        0,
-                        0,
-                        promotion
-                );
+            }
+            if (product == null) {
+                product = new Product(tokens[0], Integer.parseInt(tokens[1]), 0, 0, promotion);
             }
 
-            int count = Integer.parseInt(tokens[2]);
-            if(tokens[3].equals("null"))
-                product.increaseQuantity(count);
-            else
-                product.increasePromotionQuantity(count);
+            int quantity = Integer.parseInt(tokens[2]);
+            if (tokens[3].equals("null")) {
+                product.increaseQuantity(quantity);
+            } else {
+                product.increasePromotionQuantity(quantity);
+            }
 
             map.put(tokens[0], product);
         }

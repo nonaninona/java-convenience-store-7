@@ -36,9 +36,9 @@ public class ProductReader {
 
             int count = Integer.parseInt(tokens[2]);
             if(tokens[3].equals("null"))
-                product.incraseCount(count);
+                product.increaseCount(count);
             else
-                product.incrasePromotionCount(count);
+                product.increasePromotionCount(count);
 
             map.put(tokens[0], product);
         }

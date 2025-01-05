@@ -15,11 +15,11 @@ public class Product {
         this.promotion = promotion;
     }
 
-    public void incraseCount(int count) {
+    public void increaseCount(int count) {
         this.quantity+=count;
     }
 
-    public void incrasePromotionCount(int count) {
+    public void increasePromotionCount(int count) {
         this.promotionQuantity+=count;
     }
 

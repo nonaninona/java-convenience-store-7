@@ -46,11 +46,6 @@ public class Promotion {
 
     @Override
     public String toString() {
-        return "" +
-                "name : " + this.name + " " +
-                "buy : " + this.buy + " " +
-                "get : " + this.get + " " +
-                "startDate : " + this.startDate + " " +
-                "endDate : " + this.endDate + "\n";
+        return this.name;
     }
 }

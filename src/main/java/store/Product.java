@@ -15,35 +15,41 @@ public class Product {
         this.promotion = promotion;
     }
 
-    public boolean checkCount(int buyCount) {
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public Integer getPromotionQuantity() {
+        return promotionQuantity;
+    }
+
+    public void checkCount(int buyCount) {
         if (this.promotionQuantity + this.quantity < buyCount) {
-            System.out.println("재고가 없음");
-            return false;
+            throw new StockExceedException();
         }
-        return true;
     }
 
     public Integer checkFreeCount(int buyCount) {
         if (buyCount <= this.promotionQuantity) {
             Integer freeCount = promotion.calcFreeCount(buyCount);
             if (freeCount != 0 && buyCount + freeCount <= this.promotionQuantity) {
-                System.out.println(freeCount + "개를 공짜로 더 담을 수 있음");
+                UserInputOutputHandler.printFreeCountQuestion(this.name, freeCount);
                 return freeCount;
             }
         }
         return 0;
     }
 
-    public boolean checkPromotionCount(int buyCount) {
+    public boolean checkIfNotIncludedPromotionCountExist(int buyCount) {
         if (buyCount > this.promotionQuantity) {
             Integer totalPromotionCount = promotion.calcTotalPromotionCount(this.promotionQuantity);
             Integer notPromotionCount = buyCount - totalPromotionCount;
             if (!promotion.isNoPromotion() && notPromotionCount != 0) {
-                System.out.println(notPromotionCount + "개는 프로모션이 적용되지 않는데 괜춘?");
-                return false;
+                UserInputOutputHandler.printPromotionNotIncludedQuestion(this.name, notPromotionCount);
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public Integer calcRawPrice(int buyCount) {
@@ -53,8 +59,6 @@ public class Product {
     public Integer calcPrice(int buyCount) {
         if(buyCount <= this.promotionQuantity) {
             Integer promotionCount = promotion.calcPromotionCount(buyCount);
-            System.out.println("buyCount : " + buyCount);
-            System.out.println("promotionCount : " + promotionCount);
             Integer totalPrice = (buyCount - promotionCount) * this.price;
 
             this.promotionQuantity -= buyCount;
@@ -62,8 +66,6 @@ public class Product {
         }
 
         Integer promotionCount = promotion.calcPromotionCount(this.promotionQuantity);
-        System.out.println("buyCount : " + buyCount);
-        System.out.println("promotionCount : " + promotionCount);
         Integer totalPrice = (buyCount - promotionCount) * this.price;
 
         Integer leftCount = buyCount - this.promotionQuantity;
@@ -96,11 +98,20 @@ public class Product {
 
     @Override
     public String toString() {
-        return "\n" +
-                "name : " + this.name + "\n" +
-                "price : " + this.price + "\n" +
-                "quantity : " + this.quantity + "\n" +
-                "promotionQuantity : " + this.promotionQuantity + "\n" +
-                "promotion : " + this.promotion + "\n";
+        StringBuilder stringBuilder = new StringBuilder();
+        if(this.quantity > 0) {
+            stringBuilder.append("-").append(" ");
+            stringBuilder.append(this.name).append(" ");
+            stringBuilder.append(this.price).append("원").append(" ");
+            stringBuilder.append(this.quantity).append("개").append("\n");
+        }
+        if(this.promotionQuantity > 0) {
+            stringBuilder.append("-").append(" ");
+            stringBuilder.append(this.name).append(" ");
+            stringBuilder.append(this.price).append("원").append(" ");
+            stringBuilder.append(this.promotionQuantity).append("개").append(" ");
+            stringBuilder.append(this.promotion).append("\n");
+        }
+        return stringBuilder.toString();
     }
 }

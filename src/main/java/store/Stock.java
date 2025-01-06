@@ -18,17 +18,18 @@ public class Stock {
         this.productMap = productReader.readProduct(promotionHashMap);
     }
 
-    public void printStocks() {
-        System.out.println("안녕하세요. W 편의점입니다.");
-        System.out.println("현재 보유하고 있는 상품입니다.");
-        System.out.println();
+    public String productsToString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("안녕하세요. W 편의점입니다.").append("\n");
+        stringBuilder.append("현재 보유하고 있는 상품입니다.").append("\n").append("\n");
 
         productMap.forEach((name, product) -> {
-            System.out.print(product);
+            stringBuilder.append(product.toSellInfoString());
         });
 
-        System.out.println();
-        System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
+        stringBuilder.append("\n");
+        stringBuilder.append("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])").append("\n");
+        return stringBuilder.toString();
     }
 
     public List<CartItem> makeCartItems(List<Order> orderList) {

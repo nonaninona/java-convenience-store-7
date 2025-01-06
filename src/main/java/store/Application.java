@@ -16,25 +16,14 @@ public class Application {
         }
 
         try {
-            stock.printStocks();
-            List<Order> orderList = UserInputOutputHandler.readOrders();
+            List<Order> orderList = UserInputOutputHandler.readOrders(stock.productsToString());
             List<CartItem> cartItemList = stock.makeCartItems(orderList);
 
             Cart cart = new Cart(cartItemList);
-            cart.checkCartItem();
-
-            cart.printCartItemList();
-
-//            Integer rawPrice = cart.calcRawPrice(cartItemList);
-//            Integer discountPrice = MemberShipDiscount.calcDiscountPrice(rawPrice);
-//            Integer price = cart.calcPrice(cartItemList);
-//
-//            UserInputOutputHandler.printMembershipQuestion();
-//            boolean isMemberShip = UserInputOutputHandler.readWantOrNot();
-//            if (isMemberShip) {
-//                price -= discountPrice;
-//            }
-//            UserInputOutputHandler.printPrice(price);
+            cart.validateCartItem();
+            cart.checkMemberShip();
+            String bill = cart.buy();
+            UserInputOutputHandler.printBill(bill);
         } catch (StockExceedException e) {
             System.out.println(e.getMessage());
         } catch (InputFormatException e) {

@@ -1,7 +1,7 @@
 package store.promotion;
 
 import java.time.LocalDate;
-import store.UserInputOutputHandler;
+import store.Quantity;
 
 public class PlusPromotion implements Promotion{
     private String name;
@@ -18,16 +18,22 @@ public class PlusPromotion implements Promotion{
         this.endDate = endDate;
     }
 
-    public Integer calcPromotionCount(int count) {
+    public Integer calcPromotionCount(Quantity quantity) {
+        System.out.println("quantity");
+        System.out.println(quantity.getBasicQuantity());
+        System.out.println(quantity.getPromotionQuantity());
         if(LocalDate.now().isAfter(endDate) || LocalDate.now().isBefore(startDate))
             return 0;
 
-        return count / (buy + get);
+        return quantity.getPromotionQuantity() / (buy + get);
     }
 
     @Override
-    public Integer calcFreeCount(int buyCount, int promotionQuantity) {
+    public Integer calcFreeCount(int buyCount, Quantity quantity) {
         if(LocalDate.now().isAfter(endDate) || LocalDate.now().isBefore(startDate))
+            return 0;
+
+        if(!quantity.isPromotionQuantityGreaterThan(buyCount))
             return 0;
 
         Integer leftCount = buyCount % (buy + get);
@@ -35,14 +41,14 @@ public class PlusPromotion implements Promotion{
             return 0;
         }
         Integer freeCount = get - (leftCount - buy);
-        if (freeCount != 0 && buyCount + freeCount <= promotionQuantity) {
+        if (freeCount != 0 && !quantity.isPromotionQuantityLessThan(buyCount + freeCount)) {
             return freeCount;
         }
         return 0;
     }
 
     @Override
-    public Integer calcNotIncludedPromotionCount(int buyCount, int quantity) {
+    public Integer calcNotIncludedPromotionCount(int buyCount, Quantity quantity) {
         if(LocalDate.now().isAfter(endDate) || LocalDate.now().isBefore(startDate))
             return 0;
 
@@ -55,7 +61,7 @@ public class PlusPromotion implements Promotion{
         return this.name;
     }
 
-    private Integer calcTotalPromotionCount(int count) {
-        return calcPromotionCount(count) * (buy + get);
+    private Integer calcTotalPromotionCount(Quantity quantity) {
+        return calcPromotionCount(quantity) * (buy + get);
     }
 }

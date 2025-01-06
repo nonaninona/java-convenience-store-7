@@ -52,25 +52,12 @@ public class CartItem {
     }
 
     public String toPromotedListString() {
-        System.out.println(product.getName());
-        System.out.println("toPromotedListString");
-        System.out.println(product.toSellInfoString());
-        System.out.println(buyCount);
-        System.out.println(product.calcPromotedCount(buyCount));
-        System.out.println(product.calcPromotedCount(buyCount) == 0);
-        System.out.println(product.getName() + "\t\t" + product.calcPromotedPrice(buyCount));
         if(product.calcPromotedCount(buyCount) == 0)
             return "";
-        return product.getName() + "\t\t" + product.calcPromotedPrice(buyCount);
+        return product.getName() + "\t\t" + product.calcPromotedCount(buyCount);
     }
 
     public Integer getBuyCount() {
         return buyCount;
     }
-//
-//    @Override
-//    public String toString() {
-//        return "" +
-//                product.getName() + "\t" + buyCount + "\t" + product.calcRawPrice(buyCount);
-//    }
 }

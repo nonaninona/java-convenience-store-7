@@ -19,9 +19,6 @@ public class PlusPromotion implements Promotion{
     }
 
     public Integer calcPromotionCount(Quantity quantity) {
-        System.out.println("quantity");
-        System.out.println(quantity.getBasicQuantity());
-        System.out.println(quantity.getPromotionQuantity());
         if(LocalDate.now().isAfter(endDate) || LocalDate.now().isBefore(startDate))
             return 0;
 
@@ -50,6 +47,9 @@ public class PlusPromotion implements Promotion{
     @Override
     public Integer calcNotIncludedPromotionCount(int buyCount, Quantity quantity) {
         if(LocalDate.now().isAfter(endDate) || LocalDate.now().isBefore(startDate))
+            return 0;
+
+        if(!quantity.isPromotionQuantityLessThan(buyCount))
             return 0;
 
         Integer totalPromotionCount = calcTotalPromotionCount(quantity);

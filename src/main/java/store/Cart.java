@@ -51,16 +51,17 @@ public class Cart {
     }
 
     public String buy() {
+        String bill = makeBill();
         cartItemList.forEach(CartItem::buy);
-        return makeBill();
+        return bill;
     }
 
     private String makeBill() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("=".repeat(20)).append("\n");
+        stringBuilder.append("=".repeat(10)).append("W 편의점").append("=".repeat(10)).append("\n");
         stringBuilder.append("상품명\t\t수량\t\t금액").append("\n");
         cartItemList.forEach(item -> stringBuilder.append(item.toBillListString()).append("\n"));
-        stringBuilder.append("=".repeat(20)).append("\n");
+        stringBuilder.append("=".repeat(10)).append("증 정").append("=".repeat(10)).append("\n");
         cartItemList.forEach(item -> stringBuilder.append(item.toPromotedListString()).append("\n"));
         stringBuilder.append("=".repeat(20)).append("\n");
         stringBuilder.append("총 구매액\t\t").append(sumBuyCount()).append("\t\t").append(calcTotalPrice()).append("\n");

@@ -66,5 +66,7 @@ public class Product {
         return promotedCount * this.price;
     }
 
-    public Integer calcPromotedCount(int buyCount) { return Math.min(buyCount, promotion.calcPromotionCount(this.quantity)); }
+    public Integer calcPromotedCount(int buyCount) {
+        return promotion.calcPromotionCount(new Quantity(this.quantity.getBasicQuantity(), buyCount));
+    }
 }

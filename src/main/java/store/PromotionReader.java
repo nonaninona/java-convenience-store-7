@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import store.promotion.PlusPromotion;
@@ -27,8 +29,8 @@ public class PromotionReader {
                     tokens[0],
                     Integer.parseInt(tokens[1]),
                     Integer.parseInt(tokens[2]),
-                    LocalDate.parse(tokens[3]),
-                    LocalDate.parse(tokens[4])
+                    LocalDate.parse(tokens[3]).atStartOfDay(),
+                    LocalDate.parse(tokens[4]).atTime(LocalTime.MAX)
             );
             map.put(tokens[0], promotion);
         }

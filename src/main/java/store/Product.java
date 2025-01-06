@@ -25,18 +25,23 @@ public class Product {
 
     public String toSellInfoString() {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("-").append(" ");
+        stringBuilder.append(this.name).append(" ");
+        stringBuilder.append(UserInputOutputHandler.formatMoney(this.price)).append("원").append(" ");
         if (this.quantity.isPromotionQuantityGreaterThan(0)) {
-            stringBuilder.append("-").append(" ");
-            stringBuilder.append(this.name).append(" ");
-            stringBuilder.append(this.price).append("원").append(" ");
             stringBuilder.append(this.quantity.getPromotionQuantity()).append("개").append(" ");
             stringBuilder.append(this.promotion).append("\n");
+        } else {
+            stringBuilder.append("재고 없음").append("\n");
         }
+
+        stringBuilder.append("-").append(" ");
+        stringBuilder.append(this.name).append(" ");
+        stringBuilder.append(UserInputOutputHandler.formatMoney(this.price)).append("원").append(" ");
         if (this.quantity.isBasicQuantityGreaterThan(0)) {
-            stringBuilder.append("-").append(" ");
-            stringBuilder.append(this.name).append(" ");
-            stringBuilder.append(this.price).append("원").append(" ");
             stringBuilder.append(this.quantity.getBasicQuantity()).append("개").append("\n");
+        } else {
+            stringBuilder.append("재고 없음").append("\n");
         }
         return stringBuilder.toString();
     }

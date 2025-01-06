@@ -48,13 +48,16 @@ public class CartItem {
     }
 
     public String toBillListString() {
-        return product.getName() + "\t\t" + buyCount + "\t\t" + product.calcPrice(buyCount);
+        return product.getName() + "\t\t" +
+                buyCount + "\t\t" +
+                UserInputOutputHandler.formatMoney(product.calcPrice(buyCount));
     }
 
     public String toPromotedListString() {
         if(product.calcPromotedCount(buyCount) == 0)
             return "";
-        return product.getName() + "\t\t" + product.calcPromotedCount(buyCount);
+        return product.getName() + "\t\t" +
+                UserInputOutputHandler.formatMoney(product.calcPromotedCount(buyCount));
     }
 
     public Integer getBuyCount() {

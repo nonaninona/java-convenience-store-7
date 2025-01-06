@@ -64,10 +64,10 @@ public class Cart {
         stringBuilder.append("=".repeat(10)).append("증 정").append("=".repeat(10)).append("\n");
         cartItemList.forEach(item -> stringBuilder.append(item.toPromotedListString()).append("\n"));
         stringBuilder.append("=".repeat(20)).append("\n");
-        stringBuilder.append("총 구매액\t\t").append(sumBuyCount()).append("\t\t").append(calcTotalPrice()).append("\n");
-        stringBuilder.append("행사 할인\t\t\t\t").append(-1 * calcTotalPromotedPrice()).append("\n");
-        stringBuilder.append("멤버십 할인\t\t\t").append(-1 * calcMemberShipDiscountPrice()).append("\n");
-        stringBuilder.append("내실돈\t\t\t\t").append(calcTotalPayingPrice());
+        stringBuilder.append("총 구매액\t\t").append(sumBuyCount()).append("\t\t").append(UserInputOutputHandler.formatMoney(calcTotalPrice())).append("\n");
+        stringBuilder.append("행사 할인\t\t\t\t").append("-").append(UserInputOutputHandler.formatMoney(calcTotalPromotedPrice())).append("\n");
+        stringBuilder.append("멤버십 할인\t\t\t").append("-1").append(UserInputOutputHandler.formatMoney(calcMemberShipDiscountPrice())).append("\n");
+        stringBuilder.append("내실돈\t\t\t\t").append(UserInputOutputHandler.formatMoney(calcTotalPayingPrice()));
         return stringBuilder.toString();
     }
 

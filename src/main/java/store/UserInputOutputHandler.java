@@ -1,7 +1,9 @@
 package store;
 
 import camp.nextstep.edu.missionutils.Console;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import store.exception.InputFormatException;
 
@@ -51,5 +53,9 @@ public class UserInputOutputHandler {
 
     public static void printRepeatQuestion() {
         System.out.println("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)");
+    }
+
+    public static String formatMoney(Integer price) {
+        return NumberFormat.getCurrencyInstance().format(price).substring(1);
     }
 }

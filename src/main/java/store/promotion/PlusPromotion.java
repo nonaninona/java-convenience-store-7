@@ -1,16 +1,18 @@
 package store.promotion;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import store.Quantity;
 
 public class PlusPromotion implements Promotion{
     private String name;
     private Integer buy;
     private Integer get;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
-    public PlusPromotion(String name, Integer buy, Integer get, LocalDate startDate, LocalDate endDate) {
+    public PlusPromotion(String name, Integer buy, Integer get, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.buy = buy;
         this.get = get;
@@ -19,7 +21,7 @@ public class PlusPromotion implements Promotion{
     }
 
     public Integer calcPromotionCount(Quantity quantity) {
-        if(LocalDate.now().isAfter(endDate) || LocalDate.now().isBefore(startDate))
+        if(DateTimes.now().isAfter(endDate) || DateTimes.now().isBefore(startDate))
             return 0;
 
         return quantity.getPromotionQuantity() / (buy + get);
@@ -27,7 +29,7 @@ public class PlusPromotion implements Promotion{
 
     @Override
     public Integer calcFreeCount(int buyCount, Quantity quantity) {
-        if(LocalDate.now().isAfter(endDate) || LocalDate.now().isBefore(startDate))
+        if(DateTimes.now().isAfter(endDate) || DateTimes.now().isBefore(startDate))
             return 0;
 
         if(!quantity.isPromotionQuantityGreaterThan(buyCount))
@@ -46,7 +48,7 @@ public class PlusPromotion implements Promotion{
 
     @Override
     public Integer calcNotIncludedPromotionCount(int buyCount, Quantity quantity) {
-        if(LocalDate.now().isAfter(endDate) || LocalDate.now().isBefore(startDate))
+        if(DateTimes.now().isAfter(endDate) || DateTimes.now().isBefore(startDate))
             return 0;
 
         if(!quantity.isPromotionQuantityLessThan(buyCount))
